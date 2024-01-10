@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button buttonList = findViewById(R.id.buttonList);
         Button buttonFavs = findViewById(R.id.buttonFavs);
+        Button buttonLogin = findViewById(R.id.buttonLogin);
 
         buttonList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,6 +31,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Iniciar la actividad ListaFavs
                 Intent intent = new Intent(MainActivity.this, ListaFavs.class);
+                startActivity(intent);
+            }
+        });
+
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Iniciar la actividad ListaFavs
+                Intent intent = new Intent(MainActivity.this, Login.class);
                 startActivity(intent);
             }
         });

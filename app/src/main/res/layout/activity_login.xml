@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Login"
+    >
+
+    <ImageView
+        android:layout_width="227dp"
+        android:layout_height="205dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="46dp"
+        android:layout_marginRight="16dp"
+        android:src="@mipmap/logo_icon" />
+    <EditText
+        android:fontFamily="serif"
+        android:id="@+id/editTextUsuario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:hint="Usuario"
+        android:layout_marginTop="290dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"/>
+
+    <EditText
+        android:fontFamily="serif"
+
+        android:id="@+id/editTextContraseña"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:hint="Contraseña"
+        android:layout_below="@id/editTextUsuario"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:inputType="textPassword"/>
+
+    <CheckBox
+        android:id="@+id/checkBoxMostrarContraseña"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mostrar Contraseña"
+        android:layout_below="@id/editTextContraseña"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"/>
+
+    <Button
+        android:fontFamily="serif"
+
+        android:id="@+id/buttonLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Iniciar Sesión"
+        android:layout_below="@id/checkBoxMostrarContraseña"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"/>
+
+
+</RelativeLayout>

@@ -6,17 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="AR-Mazones"
-        android:textSize="50dp"
-        android:fontFamily="serif"
+    <ImageView
+        android:layout_width="170dp"
+        android:layout_height="176dp"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        />
+        android:layout_marginTop="50dp"
+        android:src="@mipmap/logo_icon" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -26,13 +24,14 @@
         android:textSize="30dp"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
         />
 
     <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:columnCount="2"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="10dp"
         android:layout_gravity="center">
         <ImageView
             android:layout_width="wrap_content"
@@ -59,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:columnCount="2"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:layout_gravity="center">
         <ImageView
             android:layout_width="wrap_content"
@@ -80,18 +79,27 @@
             />
     </GridLayout>
 
-    <RelativeLayout
+    <Button
+        android:id="@+id/buttonLogin"
+        android:fontFamily="serif"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Cerrar Sesión"
+        android:drawableLeft="@drawable/arrow2_back_icon"
+        android:layout_marginTop="100dp"
         android:layout_gravity="center"
-        android:layout_marginTop="200dp">
+        />
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="serif"
             android:layout_gravity="center"
-            android:layout_marginBottom="0dp"
+            android:layout_marginTop="30dp"
             android:text="Derechos reservados"
             android:textSize="10dp" />
-    </RelativeLayout>
+
+
 </LinearLayout>
