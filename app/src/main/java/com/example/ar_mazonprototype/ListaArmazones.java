@@ -1,24 +1,24 @@
 package com.example.ar_mazonprototype;
 
-import android.Manifest;
+
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import com.google.ar.core.Anchor;
+import com.google.ar.core.HitResult;
+import com.google.ar.sceneform.AnchorNode;
+import com.google.ar.sceneform.rendering.ModelRenderable;
+import com.google.ar.sceneform.ux.ArFragment;
 
 public class ListaArmazones extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int CAMERA_PERMISSION_CODE = 100;
+    private ArFragment arFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,15 +43,15 @@ public class ListaArmazones extends AppCompatActivity {
         // Asignar el adaptador a la ListView
         listView.setAdapter(adapter);
 
+        // Configurar ARCore en la actividad
+        arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.arFragment);
         // Manejar clics en los elementos de la lista
         listView.setOnItemClickListener((parent, view, position, id) -> {
             String item = (String) parent.getItemAtPosition(position);
             Toast.makeText(ListaArmazones.this, "Clic en: " + item, Toast.LENGTH_SHORT).show();
 
-            // Verificar y solicitar permisos
-            if (checkCameraPermission()) {
-                dispatchTakePictureIntent();
-            }
+            // Agregar un armazón al ambiente AR
+            addGlassesToScene();
         });
 
         Button buttonListaArmazonesRegresar = findViewById(R.id.buttonListaArmazonesRegresar);
@@ -65,37 +65,28 @@ public class ListaArmazones extends AppCompatActivity {
         });
     }
 
-    private boolean checkCameraPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                    != PackageManager.PERMISSION_GRANTED) {
-                // Solicitar permiso
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.CAMERA},
-                        CAMERA_PERMISSION_CODE);
-                return false;
-            }
-        }
-        return true;
+    private void addGlassesToScene() {
+        ModelRenderable.builder()
+                .setSource(this, R.raw.glasses_model) // Agrega aquí el modelo 3D de tus armazones
+                .build()
+                .thenAccept(modelRenderable -> placeObject(arFragment, modelRenderable))
+                .exceptionally(throwable -> {
+                    Toast.makeText(this, "Error al cargar el modelo 3D", Toast.LENGTH_SHORT).show();
+                    return null;
+                });
     }
 
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-    }
+    private void placeObject(ArFragment arFragment, ModelRenderable modelRenderable) {
+        // Obtén el punto donde se toca la pantalla
+        HitResult hitResult = arFragment.getArSceneView().getArFrame().hitTest(arFragment.getArSceneView().getWidth() / 2f,
+                arFragment.getArSceneView().getHeight() / 2f).get(0);
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == CAMERA_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permiso concedido, puedes abrir la cámara
-                dispatchTakePictureIntent();
-            } else {
-                Toast.makeText(this, "Permiso de cámara denegado", Toast.LENGTH_SHORT).show();
-            }
+        if (hitResult != null) {
+            // Agrega el modelo 3D al punto tocado
+            Anchor anchor = hitResult.createAnchor();
+            AnchorNode anchorNode = new AnchorNode(anchor);
+            anchorNode.setRenderable(modelRenderable);
+            arFragment.getArSceneView().getScene().addChild(anchorNode);
         }
     }
 }

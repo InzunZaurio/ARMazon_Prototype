@@ -37,5 +37,12 @@
         android:layout_height="wrap_content"
         android:divider="@android:color/darker_gray"
         />
+        <fragment
+            android:id="@+id/arFragment"
+            android:name="com.google.ar.sceneform.ux.ArFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
     </GridLayout>
+
 </LinearLayout>
